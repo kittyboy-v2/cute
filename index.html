@@ -9,37 +9,147 @@
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;font-family:monospace;
+  margin:0;
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
   background:#050505 url("c8f31b31a576ab06615b9f4a8bbcd125.jpg") center/cover no-repeat fixed;
-  color:#eaeaea;overflow:hidden
+  color:#eaeaea;
+  overflow:hidden
 }
-canvas#snow{position:fixed;inset:0;z-index:1;pointer-events:none}
-.e{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,5,5,.85);z-index:10;cursor:pointer}
-.e span{color:#aaa;font-size:14px;animation:blink 1.4s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.c{min-height:100vh;display:flex;align-items:center;justify-content:center;opacity:0;transition:.6s;position:relative;z-index:2}
-.k{background:rgba(11,11,11,.92);border:1px solid #151515;width:460px;max-width:calc(100% - 32px);padding:22px 24px;box-shadow:0 0 40px rgba(0,0,0,.85);backdrop-filter:blur(4px)}
-.u{font-size:18px;color:#fff;margin-bottom:14px}
-.s{margin-bottom:16px}
-.l{color:#777;margin-bottom:6px}
-.i{line-height:1.55;color:#e0e0e0}
-a{color:#7aa2f7;text-decoration:none}
-a:hover{text-decoration:underline}
-.f{margin-top:14px;font-size:12px;color:#888}
+
+/* overlay */
+.e{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(5,5,5,.88);
+  z-index:10;
+  cursor:pointer
+}
+.e span{
+  color:#999;
+  font-size:14px;
+  letter-spacing:.08em;
+  animation:blink 1.4s infinite
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* snow */
+canvas#snow{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none
+}
+
+/* main container */
+.c{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity .6s ease;
+  position:relative;
+  z-index:2
+}
 .sh{opacity:1}
-#muteBtn{position:fixed;top:10px;right:10px;z-index:20;background:#0b0b0b;border:1px solid #222;color:#aaa;font-family:monospace;font-size:12px;padding:6px 10px;cursor:pointer}
+
+/* card */
+.k{
+  width:480px;
+  max-width:calc(100% - 32px);
+  padding:26px 26px 22px;
+  background:linear-gradient(180deg,rgba(14,14,14,.95),rgba(9,9,9,.95));
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:14px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.02),
+    0 25px 60px rgba(0,0,0,.85);
+  backdrop-filter:blur(6px)
+}
+
+/* header */
+.u{
+  font-size:22px;
+  font-weight:600;
+  color:#fff;
+  margin-bottom:18px;
+  letter-spacing:.02em
+}
+.u::after{
+  content:"";
+  display:block;
+  height:2px;
+  width:42px;
+  margin-top:8px;
+  background:linear-gradient(90deg,#7aa2f7,#9d7af7);
+  opacity:.8
+}
+
+/* sections */
+.s{
+  margin-bottom:18px
+}
+.l{
+  font-size:11px;
+  color:#777;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  margin-bottom:6px
+}
+.i{
+  line-height:1.65;
+  color:#e0e0e0;
+  font-size:14px
+}
+.i + .i{margin-top:2px}
+
+/* links */
+a{
+  color:#9bbcff;
+  text-decoration:none
+}
+a:hover{text-decoration:underline}
+
+/* footer */
+.f{
+  margin-top:16px;
+  font-size:12px;
+  color:#777;
+  opacity:.9
+}
+
+/* mute button */
+#muteBtn{
+  position:fixed;
+  top:12px;
+  right:12px;
+  z-index:20;
+  background:rgba(10,10,10,.9);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;
+  color:#aaa;
+  font-family:inherit;
+  font-size:12px;
+  padding:6px 12px;
+  cursor:pointer
+}
+#muteBtn:hover{color:#fff}
 </style>
 </head>
 
 <body>
 
 <button id="muteBtn">mute</button>
-<div class="e" onclick="enter()"><span>click to enter</span></div>
+
+<div class="e" onclick="enter()">
+  <span>click to enter</span>
+</div>
+
 <canvas id="snow"></canvas>
 
 <div class="c" id="main">
   <div class="k">
-    <div class="u">user</div>
+    <div class="u">@A</div>
 
     <div class="s">
       <div class="l">about</div>
@@ -62,26 +172,24 @@ a:hover{text-decoration:underline}
   </div>
 </div>
 
-<!-- YT API -->
+<!-- YouTube API -->
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
 let player, muted=false;
-
-function onYouTubeIframeAPIReady(){}
 
 function enter(){
   document.querySelector(".e").style.display="none";
   document.getElementById("main").classList.add("sh");
   if(player) return;
 
-  const div=document.createElement("div");
-  div.id="bgm";
-  div.style.position="fixed";
-  div.style.width="1px";
-  div.style.height="1px";
-  div.style.opacity="0";
-  document.body.appendChild(div);
+  const d=document.createElement("div");
+  d.id="bgm";
+  d.style.position="fixed";
+  d.style.width="1px";
+  d.style.height="1px";
+  d.style.opacity="0";
+  document.body.appendChild(d);
 
   player=new YT.Player("bgm",{
     videoId:"Jn8HZtWyjw0",
@@ -95,7 +203,7 @@ function enter(){
   });
 }
 
-document.getElementById("muteBtn").onclick=()=>{
+muteBtn.onclick=()=>{
   if(!player) return;
   muted=!muted;
   muted ? player.mute() : player.unMute();
@@ -103,32 +211,36 @@ document.getElementById("muteBtn").onclick=()=>{
 };
 </script>
 
-<!-- SNOW -->
+<!-- Snow -->
 <script>
 const c=document.getElementById("snow"),x=c.getContext("2d");
-let w,h;function r(){w=c.width=innerWidth;h=c.height=innerHeight}
+let w,h;
+function r(){w=c.width=innerWidth;h=c.height=innerHeight}
 addEventListener("resize",r);r();
-const p=Array.from({length:140},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,s:Math.random()+.5}));
+const p=Array.from({length:140},()=>({
+  x:Math.random()*w,
+  y:Math.random()*h,
+  r:Math.random()*2+1,
+  s:Math.random()+.5
+}));
 (function a(){
-  x.clearRect(0,0,w,h);x.fillStyle="rgba(255,255,255,.7)";
+  x.clearRect(0,0,w,h);
+  x.fillStyle="rgba(255,255,255,.7)";
   p.forEach(o=>{
-    x.beginPath();x.arc(o.x,o.y,o.r,0,Math.PI*2);x.fill();
-    o.y+=o.s;o.x+=Math.sin(o.y*.01);
+    x.beginPath();
+    x.arc(o.x,o.y,o.r,0,Math.PI*2);
+    x.fill();
+    o.y+=o.s;
+    o.x+=Math.sin(o.y*.01);
     if(o.y>h){o.y=-5;o.x=Math.random()*w}
   });
   requestAnimationFrame(a);
 })();
 </script>
 
-<!-- ANTI DEV -->
+<!-- Anti-dev -->
 <script>
 (function(){
-let t=false;
-function kill(){
-  if(t)return;t=true;
-  document.body.innerHTML='<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#666;font-family:monospace">loading…</div>';
-  setInterval(()=>{debugger},700);
-}
 addEventListener("contextmenu",e=>e.preventDefault());
 addEventListener("keydown",e=>{
   if(e.key==="F12"||(e.ctrlKey&&e.shiftKey&&["I","J","C"].includes(e.key))||(e.ctrlKey&&e.key==="U")){
