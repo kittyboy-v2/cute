@@ -9,165 +9,108 @@
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:monospace;
+  margin:0;font-family:monospace;
   background:#050505 url("c8f31b31a576ab06615b9f4a8bbcd125.jpg") center/cover no-repeat fixed;
-  color:#eaeaea;
-  overflow:hidden
+  color:#eaeaea;overflow:hidden
 }
 canvas#snow{position:fixed;inset:0;z-index:1;pointer-events:none}
-.e{
-  position:fixed;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(5,5,5,.85);
-  z-index:10;cursor:pointer
-}
+.e{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,5,5,.85);z-index:10;cursor:pointer}
 .e span{color:#aaa;font-size:14px;animation:blink 1.4s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.c{
-  min-height:100vh;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:opacity .6s ease;
-  position:relative;z-index:2
-}
-.k{
-  background:rgba(11,11,11,.92);
-  border:1px solid #151515;
-  width:460px;
-  max-width:calc(100% - 32px);
-  padding:22px 24px;
-  box-shadow:0 0 40px rgba(0,0,0,.85);
-  backdrop-filter:blur(4px)
-}
+.c{min-height:100vh;display:flex;align-items:center;justify-content:center;opacity:0;transition:.6s;position:relative;z-index:2}
+.k{background:rgba(11,11,11,.92);border:1px solid #151515;width:460px;max-width:calc(100% - 32px);padding:22px 24px;box-shadow:0 0 40px rgba(0,0,0,.85);backdrop-filter:blur(4px)}
 .u{font-size:18px;color:#fff;margin-bottom:14px}
 .s{margin-bottom:16px}
 .l{color:#777;margin-bottom:6px}
 .i{line-height:1.55;color:#e0e0e0}
 a{color:#7aa2f7;text-decoration:none}
 a:hover{text-decoration:underline}
-.f{margin-top:14px;font-size:12px;color:#888;white-space:pre}
+.f{margin-top:14px;font-size:12px;color:#888}
 .sh{opacity:1}
-#muteBtn{
-  position:fixed;top:10px;right:10px;
-  z-index:20;
-  background:#0b0b0b;
-  border:1px solid #222;
-  color:#aaa;
-  font-family:monospace;
-  font-size:12px;
-  padding:6px 10px;
-  cursor:pointer
-}
+#muteBtn{position:fixed;top:10px;right:10px;z-index:20;background:#0b0b0b;border:1px solid #222;color:#aaa;font-family:monospace;font-size:12px;padding:6px 10px;cursor:pointer}
 </style>
 </head>
 
 <body>
 
 <button id="muteBtn">mute</button>
-
 <div class="e" onclick="enter()"><span>click to enter</span></div>
-
 <canvas id="snow"></canvas>
 
 <div class="c" id="main">
   <div class="k">
     <div class="u">user</div>
-
-    <div class="s">
-      <div class="l">about</div>
-      <div class="i">femboy</div>
-      <div class="i">coinbase support</div>
-      <div class="i">learning as i go</div>
-    </div>
-
-    <div class="s">
-      <div class="l">links</div>
-      <div class="i">discord — 83pm</div>
-      <div class="i"><a href="https://github.com/K-gay" target="_blank">github</a> — K-gay</div>
-      <div class="i"><a href="https://www.instagram.com/femboyfraud" target="_blank">instagram</a> — @femboyfraud</div>
-    </div>
-
-    <div class="s">
-      <div class="l">extras</div>
-      <div class="i">buy KuromiWare #AD</div>
-    </div>
-
+    <div class="s"><div class="l">about</div><div class="i">femboy</div><div class="i">coinbase support</div><div class="i">learning as i go</div></div>
+    <div class="s"><div class="l">links</div><div class="i">discord — 83pm</div><div class="i"><a href="https://github.com/K-gay" target="_blank">github</a></div><div class="i"><a href="https://www.instagram.com/femboyfraud" target="_blank">instagram</a></div></div>
     <div class="f">=^.^=</div>
   </div>
 </div>
 
-<!-- AUDIO CONTROL -->
-<script>
-let muted=false;
-const btn=document.getElementById("muteBtn");
+<!-- YT API -->
+<script src="https://www.youtube.com/iframe_api"></script>
 
-btn.onclick=()=>{
-  const bgm=document.getElementById("bgm");
-  if(!bgm)return;
-  muted=!muted;
-  bgm.src =
-    "https://www.youtube.com/embed/Jn8HZtWyjw0?autoplay=1&controls=0&loop=1&playlist=Jn8HZtWyjw0"
-    + (muted?"&mute=1":"&mute=0");
-  btn.textContent = muted ? "unmute" : "mute";
-};
+<script>
+let player, muted=false;
+
+function onYouTubeIframeAPIReady(){}
 
 function enter(){
   document.querySelector(".e").style.display="none";
   document.getElementById("main").classList.add("sh");
 
-  if(!document.getElementById("bgm")){
-    const iframe=document.createElement("iframe");
-    iframe.id="bgm";
-    iframe.src="https://www.youtube.com/embed/Jn8HZtWyjw0?autoplay=1&mute=0&controls=0&loop=1&playlist=Jn8HZtWyjw0";
-    iframe.allow="autoplay";
-    iframe.style.position="fixed";
-    iframe.style.width="1px";
-    iframe.style.height="1px";
-    iframe.style.opacity="0";
-    iframe.style.pointerEvents="none";
-    document.body.appendChild(iframe);
-  }
+  if(player) return;
+
+  const div=document.createElement("div");
+  div.id="bgm";
+  div.style.position="fixed";
+  div.style.width="1px";
+  div.style.height="1px";
+  div.style.opacity="0";
+  document.body.appendChild(div);
+
+  player=new YT.Player("bgm",{
+    videoId:"Jn8HZtWyjw0",
+    playerVars:{
+      autoplay:1,
+      controls:0,
+      loop:1,
+      playlist:"Jn8HZtWyjw0"
+    },
+    events:{
+      onReady:e=>{
+        e.target.setVolume(30); // 🔉 LOWER VOLUME HERE
+        e.target.playVideo();
+      }
+    }
+  });
 }
+
+document.getElementById("muteBtn").onclick=()=>{
+  if(!player) return;
+  muted=!muted;
+  muted ? player.mute() : player.unMute();
+  document.getElementById("muteBtn").textContent = muted ? "unmute" : "mute";
+};
 </script>
 
 <!-- SNOW -->
 <script>
 const c=document.getElementById("snow"),x=c.getContext("2d");
-let w,h;
-function r(){w=c.width=innerWidth;h=c.height=innerHeight}
+let w,h;function r(){w=c.width=innerWidth;h=c.height=innerHeight}
 addEventListener("resize",r);r();
-const p=Array.from({length:140},()=>({
-  x:Math.random()*w,
-  y:Math.random()*h,
-  r:Math.random()*2+1,
-  s:Math.random()+.5
-}));
-(function a(){
-  x.clearRect(0,0,w,h);
-  x.fillStyle="rgba(255,255,255,.7)";
-  p.forEach(o=>{
-    x.beginPath();
-    x.arc(o.x,o.y,o.r,0,Math.PI*2);
-    x.fill();
-    o.y+=o.s;
-    o.x+=Math.sin(o.y*.01);
-    if(o.y>h){o.y=-5;o.x=Math.random()*w}
-  });
-  requestAnimationFrame(a);
-})();
+const p=Array.from({length:140},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,s:Math.random()+.5}));
+(function a(){x.clearRect(0,0,w,h);x.fillStyle="rgba(255,255,255,.7)";
+p.forEach(o=>{x.beginPath();x.arc(o.x,o.y,o.r,0,Math.PI*2);x.fill();o.y+=o.s;o.x+=Math.sin(o.y*.01);if(o.y>h){o.y=-5;o.x=Math.random()*w}});
+requestAnimationFrame(a)})();
 </script>
 
-<!-- ANTI DEV -->
+<!-- ANTI DEV (unchanged) -->
 <script>
 (function(){
-let t=false,th=160;
+let t=false;
 function kill(){
   if(t)return;t=true;
-  try{bgm?.remove();snow?.remove()}catch{}
   document.body.innerHTML='<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#666;font-family:monospace">loading…</div>';
-  setInterval(()=>{let d=document.createElement("div");document.body.appendChild(d);d.remove()},30);
-  const n=()=>{};
-  console.log=n;console.warn=n;console.error=n;console.clear=n;console.table=n;
   setInterval(()=>{debugger},700);
 }
 addEventListener("contextmenu",e=>e.preventDefault());
@@ -176,11 +119,6 @@ addEventListener("keydown",e=>{
     e.preventDefault();e.stopPropagation();
   }
 },true);
-setInterval(()=>{
-  try{
-    if(outerWidth-innerWidth>th||outerHeight-innerHeight>th)kill();
-  }catch{}
-},500);
 })();
 </script>
 
