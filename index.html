@@ -216,54 +216,55 @@ function draw(){
 draw();
 </script>
 
-<!-- ANTI DEVTOOLS : SAFE HARDENED MODE -->
+<!-- ANTI DEVTOOLS + CONSOLE POISON -->
 <script>
 (function(){
-  let tripped=false;
-  const threshold=160;
+  let poisoned=false;
 
-  function degrade(){
-    if(tripped) return;
-    tripped=true;
+  function poisonConsole(){
+    if(poisoned) return;
+    poisoned=true;
 
-    // remove real content
+    const noop=()=>{};
+    const methods=[
+      "log","warn","error","info","debug",
+      "dir","dirxml","table","trace","clear",
+      "group","groupCollapsed","groupEnd",
+      "time","timeEnd","count","profile","profileEnd"
+    ];
+
+    methods.forEach(m=>{
+      try{console[m]=noop}catch(e){}
+    });
+
+    // poison console access itself
     try{
-      document.getElementById("snow")?.remove();
-      document.getElementById("bgm")?.remove();
+      Object.defineProperty(window,"console",{
+        get(){
+          for(let i=0;i<5e6;i++){}
+          return {};
+        }
+      });
     }catch(e){}
 
-    // decoy screen
-    document.body.innerHTML=`
-      <div style="
-        height:100vh;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        background:#000;
-        color:#666;
-        font-family:monospace;
-        font-size:14px;
-      ">loading…</div>
-    `;
-
-    // DOM churn (breaks live inspection)
+    // keep it poisoned
     setInterval(()=>{
-      const d=document.createElement("div");
-      document.body.appendChild(d);
-      d.remove();
-    },30);
-
-    // console poison
-    const n=()=>{};
-    console.log=n;console.warn=n;console.error=n;
-    console.clear=n;console.table=n;
-
-    // debugger trap
-    setInterval(()=>{debugger},700);
+      methods.forEach(m=>{
+        try{console[m]=noop}catch(e){}
+      });
+    },500);
   }
 
-  document.addEventListener("contextmenu",e=>e.preventDefault());
+  // Detect DevTools via debugger timing
+  setInterval(()=>{
+    const t=performance.now();
+    debugger;
+    if(performance.now()-t>50){
+      poisonConsole();
+    }
+  },1000);
 
+  // Block obvious shortcuts
   document.addEventListener("keydown",e=>{
     if(
       e.key==="F12" ||
@@ -275,18 +276,7 @@ draw();
     }
   },true);
 
-  function detect(){
-    try{
-      const wGap=window.outerWidth-window.innerWidth;
-      const hGap=window.outerHeight-window.innerHeight;
-      if(wGap>threshold||hGap>threshold){
-        degrade();
-      }
-    }catch(e){}
-  }
-
-  setInterval(detect,500);
-  window.addEventListener("resize",detect);
+  document.addEventListener("contextmenu",e=>e.preventDefault());
 })();
 </script>
 
