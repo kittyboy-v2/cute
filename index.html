@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>user</title>
+<meta name="theme-color" content="#0b0b0b">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:monospace;
+  background:#050505 url("c8f31b31a576ab06615b9f4a8bbcd125.jpg")
+             center center / cover no-repeat fixed;
+  color:#eaeaea;
+  overflow:hidden;
+}
+
+canvas#snow{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+}
+
+.e{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(5,5,5,.85);
+  z-index:10;
+  cursor:pointer;
+}
+
+.e span{
+  color:#aaa;
+  font-size:14px;
+  animation:blink 1.4s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:.3}
+}
+
+.c{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity .6s ease;
+  position:relative;
+  z-index:2;
+}
+
+.k{
+  background:rgba(11,11,11,.92);
+  border:1px solid #151515;
+  width:460px;
+  max-width:calc(100% - 32px);
+  padding:22px 24px;
+  box-shadow:0 0 40px rgba(0,0,0,.85);
+  backdrop-filter:blur(4px);
+}
+
+.u{font-size:18px;color:#fff;margin-bottom:14px}
+.s{margin-bottom:16px}
+.l{color:#777;margin-bottom:6px}
+.i{line-height:1.55;color:#e0e0e0}
+
+a{color:#7aa2f7;text-decoration:none}
+a:hover{text-decoration:underline}
+
+.f{
+  margin-top:14px;
+  font-size:12px;
+  color:#888;
+  white-space:pre;
+}
+
+.sh{opacity:1}
+
+#muteBtn{
+  position:fixed;
+  top:10px;
+  right:10px;
+  z-index:20;
+  background:#0b0b0b;
+  border:1px solid #222;
+  color:#aaa;
+  font-family:monospace;
+  font-size:12px;
+  padding:6px 10px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<button id="muteBtn">mute</button>
+
+<div class="e" onclick="enter()">
+  <span>click to enter</span>
+</div>
+
+<canvas id="snow"></canvas>
+
+<div class="c" id="main">
+  <div class="k">
+    <div class="u">user</div>
+
+    <div class="s">
+      <div class="l">about</div>
+      <div class="i">femboy</div>
+      <div class="i">coinbase support</div>
+      <div class="i">learning as i go</div>
+    </div>
+
+    <div class="s">
+      <div class="l">links</div>
+      <div class="i"><a href="#">discord</a> — 83pm</div>
+      <div class="i"><a href="https://github.com/K-gay" target="_blank">github</a> — K-gay</div>
+      <div class="i">
+        <a href="https://www.instagram.com/femboyfraud" target="_blank">
+          instagram
+        </a> — @femboyfraud
+      </div>
+    </div>
+
+    <div class="s">
+      <div class="l">extras</div>
+      <div class="i">buy KuromiWare #AD</div>
+    </div>
+
+    <div class="f">
+=^.^=
+    </div>
+  </div>
+</div>
+
+<!-- MUSIC -->
+<script>
+let muted=false;
+const btn=document.getElementById("muteBtn");
+
+btn.onclick=()=>{
+  const f=document.getElementById("bgm");
+  if(!f)return;
+  muted=!muted;
+  const base="https://www.youtube.com/embed/2mF5pPVpNwM?autoplay=1&controls=0&loop=1&playlist=2mF5pPVpNwM";
+  f.src=base+(muted?"&mute=1":"&mute=0");
+  btn.textContent=muted?"unmute":"mute";
+};
+
+function enter(){
+  document.querySelector(".e").style.display="none";
+  document.getElementById("main").classList.add("sh");
+
+  if(!document.getElementById("bgm")){
+    const i=document.createElement("iframe");
+    i.id="bgm";
+    i.src="https://www.youtube.com/embed/2mF5pPVpNwM?autoplay=1&mute=0&controls=0&loop=1&playlist=2mF5pPVpNwM";
+    i.allow="autoplay";
+    i.style.position="fixed";
+    i.style.width="1px";
+    i.style.height="1px";
+    i.style.opacity="0";
+    i.style.pointerEvents="none";
+    document.body.appendChild(i);
+  }
+}
+</script>
+
+<!-- SNOW -->
+<script>
+const canvas=document.getElementById("snow");
+const ctx=canvas.getContext("2d");
+let w,h;
+
+function resize(){
+  w=canvas.width=window.innerWidth;
+  h=canvas.height=window.innerHeight;
+}
+window.addEventListener("resize",resize);
+resize();
+
+const flakes=Array.from({length:140},()=>({
+  x:Math.random()*w,
+  y:Math.random()*h,
+  r:Math.random()*2+1,
+  s:Math.random()*1+.5
+}));
+
+function draw(){
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle="rgba(255,255,255,.7)";
+  flakes.forEach(f=>{
+    ctx.beginPath();
+    ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
+    ctx.fill();
+    f.y+=f.s;
+    f.x+=Math.sin(f.y*.01);
+    if(f.y>h){
+      f.y=-5;
+      f.x=Math.random()*w;
+    }
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+<!-- ANTI DEV TOOLS (WIPE MODE) -->
+<script>
+(function(){
+  function wipe(){
+    document.documentElement.innerHTML="";
+    document.documentElement.style.background="#000";
+    document.body && (document.body.innerHTML="");
+    setInterval(()=>{document.documentElement.innerHTML="";},200);
+  }
+
+  document.addEventListener("contextmenu",e=>e.preventDefault());
+
+  document.addEventListener("keydown",e=>{
+    if(
+      e.key==="F12" ||
+      (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key)) ||
+      (e.ctrlKey && e.key==="U")
+    ){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  },true);
+
+  const threshold=160;
+  let tripped=false;
+
+  function detect(){
+    try{
+      const wGap=window.outerWidth-window.innerWidth;
+      const hGap=window.outerHeight-window.innerHeight;
+      if((wGap>threshold || hGap>threshold) && !tripped){
+        tripped=true;
+        wipe();
+      }
+    }catch(e){}
+  }
+
+  setInterval(detect,500);
+  window.addEventListener("resize",detect);
+})();
+</script>
+
+</body>
+</html>
