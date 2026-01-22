@@ -5,29 +5,184 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>user</title>
 <meta name="theme-color" content="#0b0b0b">
-<style>*{box-sizing:border-box}body{margin:0;font-family:monospace;background:#050505 url("c8f31b31a576ab06615b9f4a8bbcd125.jpg") center center/cover no-repeat fixed;color:#eaeaea;overflow:hidden}canvas#snow{position:fixed;inset:0;z-index:1;pointer-events:none}.e{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,5,5,.85);z-index:10;cursor:pointer}.e span{color:#aaa;font-size:14px;animation:blink 1.4s infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}.c{min-height:100vh;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .6s ease;position:relative;z-index:2}.k{background:rgba(11,11,11,.92);border:1px solid #151515;width:460px;max-width:calc(100% - 32px);padding:22px 24px;box-shadow:0 0 40px rgba(0,0,0,.85);backdrop-filter:blur(4px)}.u{font-size:18px;color:#fff;margin-bottom:14px}.s{margin-bottom:16px}.l{color:#777;margin-bottom:6px}.i{line-height:1.55;color:#e0e0e0}a{color:#7aa2f7;text-decoration:none}a:hover{text-decoration:underline}.f{margin-top:14px;font-size:12px;color:#888;white-space:pre}.sh{opacity:1}#muteBtn{position:fixed;top:10px;right:10px;z-index:20;background:#0b0b0b;border:1px solid #222;color:#aaa;font-family:monospace;font-size:12px;padding:6px 10px;cursor:pointer}</style>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:monospace;
+  background:#050505 url("c8f31b31a576ab06615b9f4a8bbcd125.jpg") center/cover no-repeat fixed;
+  color:#eaeaea;
+  overflow:hidden
+}
+canvas#snow{position:fixed;inset:0;z-index:1;pointer-events:none}
+.e{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(5,5,5,.85);
+  z-index:10;cursor:pointer
+}
+.e span{color:#aaa;font-size:14px;animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.c{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .6s ease;
+  position:relative;z-index:2
+}
+.k{
+  background:rgba(11,11,11,.92);
+  border:1px solid #151515;
+  width:460px;
+  max-width:calc(100% - 32px);
+  padding:22px 24px;
+  box-shadow:0 0 40px rgba(0,0,0,.85);
+  backdrop-filter:blur(4px)
+}
+.u{font-size:18px;color:#fff;margin-bottom:14px}
+.s{margin-bottom:16px}
+.l{color:#777;margin-bottom:6px}
+.i{line-height:1.55;color:#e0e0e0}
+a{color:#7aa2f7;text-decoration:none}
+a:hover{text-decoration:underline}
+.f{margin-top:14px;font-size:12px;color:#888;white-space:pre}
+.sh{opacity:1}
+#muteBtn{
+  position:fixed;top:10px;right:10px;
+  z-index:20;
+  background:#0b0b0b;
+  border:1px solid #222;
+  color:#aaa;
+  font-family:monospace;
+  font-size:12px;
+  padding:6px 10px;
+  cursor:pointer
+}
+</style>
 </head>
+
 <body>
+
 <button id="muteBtn">mute</button>
+
 <div class="e" onclick="enter()"><span>click to enter</span></div>
+
 <canvas id="snow"></canvas>
+
 <div class="c" id="main">
-<div class="k">
-<div class="u">user</div>
-<div class="s"><div class="l">about</div><div class="i">femboy</div><div class="i">coinbase support</div><div class="i">learning as i go</div></div>
-<div class="s"><div class="l">links</div><div class="i">discord — 83pm</div><div class="i"><a href="https://github.com/K-gay" target="_blank">github</a> — K-gay</div><div class="i"><a href="https://www.instagram.com/femboyfraud" target="_blank">instagram</a> — @femboyfraud</div></div>
-<div class="s"><div class="l">extras</div><div class="i">buy KuromiWare #AD</div></div>
-<div class="f">=^.^=</div>
+  <div class="k">
+    <div class="u">user</div>
+
+    <div class="s">
+      <div class="l">about</div>
+      <div class="i">femboy</div>
+      <div class="i">coinbase support</div>
+      <div class="i">learning as i go</div>
+    </div>
+
+    <div class="s">
+      <div class="l">links</div>
+      <div class="i">discord — 83pm</div>
+      <div class="i"><a href="https://github.com/K-gay" target="_blank">github</a> — K-gay</div>
+      <div class="i"><a href="https://www.instagram.com/femboyfraud" target="_blank">instagram</a> — @femboyfraud</div>
+    </div>
+
+    <div class="s">
+      <div class="l">extras</div>
+      <div class="i">buy KuromiWare #AD</div>
+    </div>
+
+    <div class="f">=^.^=</div>
+  </div>
 </div>
-</div>
+
+<!-- AUDIO CONTROL -->
 <script>
-let _0x1a2b=false;const _0x3c4d=document.getElementById("muteBtn");_0x3c4d.onclick=()=>{const _0x5e6f=document.getElementById("bgm");if(!_0x5e6f)return;_0x1a2b=!_0x1a2b;const _0x7g8h="https://www.youtube.com/embed/2mF5pPVpNwM?autoplay=1&controls=0&loop=1&playlist=2mF5pPVpNwM";_0x5e6f.src=_0x7g8h+(_0x1a2b?"&mute=1":"&mute=0");_0x3c4d.textContent=_0x1a2b?"unmute":"mute";};function enter(){document.querySelector(".e").style.display="none";document.getElementById("main").classList.add("sh");if(!document.getElementById("bgm")){const _0x9i0j=document.createElement("iframe");_0x9i0j.id="bgm";_0x9i0j.src="https://www.youtube.com/embed/2mF5pPVpNwM?autoplay=1&mute=0&controls=0&loop=1&playlist=2mF5pPVpNwM";_0x9i0j.allow="autoplay";_0x9i0j.style.position="fixed";_0x9i0j.style.width="1px";_0x9i0j.style.height="1px";_0x9i0j.style.opacity="0";_0x9i0j.style.pointerEvents="none";document.body.appendChild(_0x9i0j);}}
+let muted=false;
+const btn=document.getElementById("muteBtn");
+
+btn.onclick=()=>{
+  const bgm=document.getElementById("bgm");
+  if(!bgm)return;
+  muted=!muted;
+  bgm.src =
+    "https://www.youtube.com/embed/Jn8HZtWyjw0?autoplay=1&controls=0&loop=1&playlist=Jn8HZtWyjw0"
+    + (muted?"&mute=1":"&mute=0");
+  btn.textContent = muted ? "unmute" : "mute";
+};
+
+function enter(){
+  document.querySelector(".e").style.display="none";
+  document.getElementById("main").classList.add("sh");
+
+  if(!document.getElementById("bgm")){
+    const iframe=document.createElement("iframe");
+    iframe.id="bgm";
+    iframe.src="https://www.youtube.com/embed/Jn8HZtWyjw0?autoplay=1&mute=0&controls=0&loop=1&playlist=Jn8HZtWyjw0";
+    iframe.allow="autoplay";
+    iframe.style.position="fixed";
+    iframe.style.width="1px";
+    iframe.style.height="1px";
+    iframe.style.opacity="0";
+    iframe.style.pointerEvents="none";
+    document.body.appendChild(iframe);
+  }
+}
 </script>
+
+<!-- SNOW -->
 <script>
-const _0x2b3c=document.getElementById("snow"),_0x4d5e=_0x2b3c.getContext("2d");let _0x6f7g,_0x8h9i;function _0x0a1b(){_0x6f7g=_0x2b3c.width=window.innerWidth;_0x8h9i=_0x2b3c.height=window.innerHeight;}window.addEventListener("resize",_0x0a1b);_0x0a1b();const _0x2c3d=Array.from({length:140},()=>({x:Math.random()*_0x6f7g,y:Math.random()*_0x8h9i,r:Math.random()*2+1,s:Math.random()*1+.5}));function _0x4e5f(){_0x4d5e.clearRect(0,0,_0x6f7g,_0x8h9i);_0x4d5e.fillStyle="rgba(255,255,255,.7)";_0x2c3d.forEach(_0x6g7h=>{_0x4d5e.beginPath();_0x4d5e.arc(_0x6g7h.x,_0x6g7h.y,_0x6g7h.r,0,Math.PI*2);_0x4d5e.fill();_0x6g7h.y+=_0x6g7h.s;_0x6g7h.x+=Math.sin(_0x6g7h.y*.01);if(_0x6g7h.y>_0x8h9i){_0x6g7h.y=-5;_0x6g7h.x=Math.random()*_0x6f7g;}});requestAnimationFrame(_0x4e5f);}_0x4e5f();
+const c=document.getElementById("snow"),x=c.getContext("2d");
+let w,h;
+function r(){w=c.width=innerWidth;h=c.height=innerHeight}
+addEventListener("resize",r);r();
+const p=Array.from({length:140},()=>({
+  x:Math.random()*w,
+  y:Math.random()*h,
+  r:Math.random()*2+1,
+  s:Math.random()+.5
+}));
+(function a(){
+  x.clearRect(0,0,w,h);
+  x.fillStyle="rgba(255,255,255,.7)";
+  p.forEach(o=>{
+    x.beginPath();
+    x.arc(o.x,o.y,o.r,0,Math.PI*2);
+    x.fill();
+    o.y+=o.s;
+    o.x+=Math.sin(o.y*.01);
+    if(o.y>h){o.y=-5;o.x=Math.random()*w}
+  });
+  requestAnimationFrame(a);
+})();
 </script>
+
+<!-- ANTI DEV -->
 <script>
-(function(){let _0x1a2b=false;const _0x3c4d=160;function _0x5e6f(){if(_0x1a2b)return;_0x1a2b=true;try{document.getElementById("snow")?.remove();document.getElementById("bgm")?.remove();}catch(_0x7g8h){}document.body.innerHTML='<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#666;font-family:monospace;font-size:14px;">loading…</div>';setInterval(()=>{const _0x9i0j=document.createElement("div");document.body.appendChild(_0x9i0j);_0x9i0j.remove();},30);const _0x0a1b=()=>{};console.log=_0x0a1b;console.warn=_0x0a1b;console.error=_0x0a1b;console.clear=_0x0a1b;console.table=_0x0a1b;setInterval(()=>{debugger},700);}document.addEventListener("contextmenu",_0x2b3c=>_0x2b3c.preventDefault());document.addEventListener("keydown",_0x4d5e=>{if(_0x4d5e.key==="F12"||(_0x4d5e.ctrlKey&&_0x4d5e.shiftKey&&["I","J","C"].includes(_0x4d5e.key))||(_0x4d5e.ctrlKey&&_0x4d5e.key==="U")){_0x4d5e.preventDefault();_0x4d5e.stopPropagation();}},true);function _0x6f7g(){try{const _0x8h9i=window.outerWidth-window.innerWidth;const _0x0a1b=window.outerHeight-window.innerHeight;if(_0x8h9i>_0x3c4d||_0x0a1b>_0x3c4d){_0x5e6f();}}catch(_0x2c3d){}}setInterval(_0x6f7g,500);window.addEventListener("resize",_0x6f7g);}());
+(function(){
+let t=false,th=160;
+function kill(){
+  if(t)return;t=true;
+  try{bgm?.remove();snow?.remove()}catch{}
+  document.body.innerHTML='<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#666;font-family:monospace">loading…</div>';
+  setInterval(()=>{let d=document.createElement("div");document.body.appendChild(d);d.remove()},30);
+  const n=()=>{};
+  console.log=n;console.warn=n;console.error=n;console.clear=n;console.table=n;
+  setInterval(()=>{debugger},700);
+}
+addEventListener("contextmenu",e=>e.preventDefault());
+addEventListener("keydown",e=>{
+  if(e.key==="F12"||(e.ctrlKey&&e.shiftKey&&["I","J","C"].includes(e.key))||(e.ctrlKey&&e.key==="U")){
+    e.preventDefault();e.stopPropagation();
+  }
+},true);
+setInterval(()=>{
+  try{
+    if(outerWidth-innerWidth>th||outerHeight-innerHeight>th)kill();
+  }catch{}
+},500);
+})();
 </script>
+
 </body>
 </html>
