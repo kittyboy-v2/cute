@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>user</title>
+<title>@A</title>
 <meta name="theme-color" content="#0b0b0b">
 
 <style>
@@ -40,8 +40,24 @@ a:hover{text-decoration:underline}
 <div class="c" id="main">
   <div class="k">
     <div class="u">user</div>
-    <div class="s"><div class="l">about</div><div class="i">femboy</div><div class="i">coinbase support</div><div class="i">learning as i go</div></div>
-    <div class="s"><div class="l">links</div><div class="i">discord — 83pm</div><div class="i"><a href="https://github.com/K-gay" target="_blank">github</a></div><div class="i"><a href="https://www.instagram.com/femboyfraud" target="_blank">instagram</a></div></div>
+
+    <div class="s">
+      <div class="l">about</div>
+      <div class="i">femboy</div>
+      <div class="i">coinbase support</div>
+      <div class="i">learning as i go</div>
+    </div>
+
+    <div class="s">
+      <div class="l">links</div>
+      <div class="i">discord — 83pm</div>
+      <div class="i">
+        <a href="https://www.instagram.com/femboyfraud" target="_blank">
+          instagram
+        </a> — @femboyfraud
+      </div>
+    </div>
+
     <div class="f">=^.^=</div>
   </div>
 </div>
@@ -57,7 +73,6 @@ function onYouTubeIframeAPIReady(){}
 function enter(){
   document.querySelector(".e").style.display="none";
   document.getElementById("main").classList.add("sh");
-
   if(player) return;
 
   const div=document.createElement("div");
@@ -70,15 +85,10 @@ function enter(){
 
   player=new YT.Player("bgm",{
     videoId:"Jn8HZtWyjw0",
-    playerVars:{
-      autoplay:1,
-      controls:0,
-      loop:1,
-      playlist:"Jn8HZtWyjw0"
-    },
+    playerVars:{autoplay:1,controls:0,loop:1,playlist:"Jn8HZtWyjw0"},
     events:{
       onReady:e=>{
-        e.target.setVolume(30); // 🔉 LOWER VOLUME HERE
+        e.target.setVolume(30);
         e.target.playVideo();
       }
     }
@@ -89,7 +99,7 @@ document.getElementById("muteBtn").onclick=()=>{
   if(!player) return;
   muted=!muted;
   muted ? player.mute() : player.unMute();
-  document.getElementById("muteBtn").textContent = muted ? "unmute" : "mute";
+  muteBtn.textContent = muted ? "unmute" : "mute";
 };
 </script>
 
@@ -99,12 +109,18 @@ const c=document.getElementById("snow"),x=c.getContext("2d");
 let w,h;function r(){w=c.width=innerWidth;h=c.height=innerHeight}
 addEventListener("resize",r);r();
 const p=Array.from({length:140},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,s:Math.random()+.5}));
-(function a(){x.clearRect(0,0,w,h);x.fillStyle="rgba(255,255,255,.7)";
-p.forEach(o=>{x.beginPath();x.arc(o.x,o.y,o.r,0,Math.PI*2);x.fill();o.y+=o.s;o.x+=Math.sin(o.y*.01);if(o.y>h){o.y=-5;o.x=Math.random()*w}});
-requestAnimationFrame(a)})();
+(function a(){
+  x.clearRect(0,0,w,h);x.fillStyle="rgba(255,255,255,.7)";
+  p.forEach(o=>{
+    x.beginPath();x.arc(o.x,o.y,o.r,0,Math.PI*2);x.fill();
+    o.y+=o.s;o.x+=Math.sin(o.y*.01);
+    if(o.y>h){o.y=-5;o.x=Math.random()*w}
+  });
+  requestAnimationFrame(a);
+})();
 </script>
 
-<!-- ANTI DEV (unchanged) -->
+<!-- ANTI DEV -->
 <script>
 (function(){
 let t=false;
